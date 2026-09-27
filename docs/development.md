@@ -1,4 +1,4 @@
-# FoodBrio Marketplace — Developer Guidelines
+# Fastflow Marketplace — Developer Guidelines
 
 ## Canonical Technology Stack
 - **Backend**: Laravel 11.x (PHP 8.2+) with MySQL/MariaDB & Sanctum Token Authentication

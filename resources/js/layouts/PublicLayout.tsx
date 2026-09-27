@@ -6,7 +6,7 @@ interface PublicLayoutProps {
 }
 
 export const PublicLayout: React.FC<PublicLayoutProps> = ({
-  appName = 'FoodBrio',
+  appName = 'Fastflow',
   children,
 }) => {
   return (
@@ -15,7 +15,7 @@ export const PublicLayout: React.FC<PublicLayoutProps> = ({
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
           <a href="/" className="flex items-center space-x-2">
             <div className="w-8 h-8 rounded-lg bg-orange-600 flex items-center justify-center font-bold text-white text-xs shadow-sm">
-              FB
+              FF
             </div>
             <span className="font-extrabold text-xl tracking-tight text-slate-900">{appName}</span>
           </a>
@@ -43,7 +43,7 @@ export const PublicLayout: React.FC<PublicLayoutProps> = ({
 
       <footer className="bg-slate-950 text-slate-400 py-12 border-t border-slate-800 text-xs">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4">
-          <p>© 2026 {appName} Multi-Vendor Marketplace. Commercial CodeCanyon Edition.</p>
+          <p>© 2026 {appName} Multi-Vendor Marketplace. All rights reserved.</p>
           <p className="text-slate-500">Phase 1: Foundation, RBAC, Restaurant Onboarding & Administration.</p>
         </div>
       </footer>

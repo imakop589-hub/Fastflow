@@ -1,4 +1,4 @@
-# FoodBrio Marketplace — Roles & Permissions (RBAC)
+# Fastflow Marketplace — Roles & Permissions (RBAC)
 
 ## RBAC Model
 The platform implements a pure Role-Based Access Control model backed by 4 tables:

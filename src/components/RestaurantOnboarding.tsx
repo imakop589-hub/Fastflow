@@ -63,7 +63,7 @@ export const RestaurantOnboarding: React.FC<RestaurantOnboardingProps> = ({ onSu
     <div className="max-w-3xl mx-auto space-y-6 my-6">
       <div className="text-center space-y-2">
         <span className="px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-orange-100 text-orange-800">
-          Partner With FoodBrio
+          Partner With Fastflow
         </span>
         <h1 className="text-2xl font-black text-slate-900">Restaurant Onboarding Application</h1>
         <p className="text-xs text-slate-500 max-w-md mx-auto">

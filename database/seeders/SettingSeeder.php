@@ -11,10 +11,10 @@ class SettingSeeder extends Seeder
     {
         $settings = [
             // General
-            ['key' => 'app_name', 'value' => 'FoodBrio Marketplace', 'group' => 'general', 'type' => 'string', 'is_public' => true],
-            ['key' => 'support_email', 'value' => 'support@foodbrio.local', 'group' => 'general', 'type' => 'string', 'is_public' => true],
-            ['key' => 'support_phone', 'value' => '+92-800-FOODBRIO', 'group' => 'general', 'type' => 'string', 'is_public' => true],
-            ['key' => 'copyright_text', 'value' => '© 2026 FoodBrio Multi-Vendor Marketplace. All rights reserved.', 'group' => 'general', 'type' => 'string', 'is_public' => true],
+            ['key' => 'app_name', 'value' => 'Fastflow Marketplace', 'group' => 'general', 'type' => 'string', 'is_public' => true],
+            ['key' => 'support_email', 'value' => 'support@fastflow.local', 'group' => 'general', 'type' => 'string', 'is_public' => true],
+            ['key' => 'support_phone', 'value' => '+92-800-FASTFLOW', 'group' => 'general', 'type' => 'string', 'is_public' => true],
+            ['key' => 'copyright_text', 'value' => '© 2026 Fastflow Multi-Vendor Marketplace. All rights reserved.', 'group' => 'general', 'type' => 'string', 'is_public' => true],
 
             // Branding
             ['key' => 'brand_tagline', 'value' => 'Flavors from the best restaurants delivered to your doorstep.', 'group' => 'branding', 'type' => 'string', 'is_public' => true],

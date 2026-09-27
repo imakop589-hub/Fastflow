@@ -1,6 +1,6 @@
 # Third-Party Licenses Tracking
 
-This document details all open-source packages and runtime libraries utilized in the FoodBrio Multi-Vendor Marketplace (Phase 1).
+This document details all open-source packages and runtime libraries utilized in the Fastflow Multi-Vendor Marketplace (Phase 1).
 
 | Package Name | Version Range | Purpose | License | Official Source |
 |---|---|---|---|---|

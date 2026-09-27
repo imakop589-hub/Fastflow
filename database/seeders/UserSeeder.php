@@ -15,7 +15,7 @@ class UserSeeder extends Seeder
 
         // 1. Super Admin
         $superAdmin = User::firstOrCreate(
-            ['email' => 'superadmin@foodbrio.local'],
+            ['email' => 'superadmin@fastflow.local'],
             [
                 'name' => 'Farhan Qureshi (Super Admin)',
                 'phone' => '+92-300-1112233',
@@ -31,7 +31,7 @@ class UserSeeder extends Seeder
 
         // 2. Admin
         $admin = User::firstOrCreate(
-            ['email' => 'admin@foodbrio.local'],
+            ['email' => 'admin@fastflow.local'],
             [
                 'name' => 'Ayesha Khan (Operations Admin)',
                 'phone' => '+92-300-2223344',
@@ -50,7 +50,7 @@ class UserSeeder extends Seeder
 
         // Owner 1: Urban Spoon
         $owner1 = User::firstOrCreate(
-            ['email' => 'owner.urbanspoon@foodbrio.local'],
+            ['email' => 'owner.urbanspoon@fastflow.local'],
             [
                 'name' => 'Tariq Mehmood',
                 'phone' => '+92-300-3334455',
@@ -65,7 +65,7 @@ class UserSeeder extends Seeder
 
         // Owner 2: Green Bowl
         $owner2 = User::firstOrCreate(
-            ['email' => 'owner.greenbowl@foodbrio.local'],
+            ['email' => 'owner.greenbowl@fastflow.local'],
             [
                 'name' => 'Sara Danish',
                 'phone' => '+92-300-4445566',
@@ -80,7 +80,7 @@ class UserSeeder extends Seeder
 
         // Owner 3: Daily Grill
         $owner3 = User::firstOrCreate(
-            ['email' => 'owner.dailygrill@foodbrio.local'],
+            ['email' => 'owner.dailygrill@fastflow.local'],
             [
                 'name' => 'Bilal Ahmed',
                 'phone' => '+92-300-5556677',
@@ -96,7 +96,7 @@ class UserSeeder extends Seeder
         // 4. Restaurant Staff
         $staffRole = Role::where('slug', 'restaurant-staff')->first();
         $staff1 = User::firstOrCreate(
-            ['email' => 'staff.urbanspoon@foodbrio.local'],
+            ['email' => 'staff.urbanspoon@fastflow.local'],
             [
                 'name' => 'Hamza Ali (Kitchen Lead)',
                 'phone' => '+92-300-6667788',
@@ -112,7 +112,7 @@ class UserSeeder extends Seeder
         // 5. Customer demo
         $customerRole = Role::where('slug', 'customer')->first();
         $customer = User::firstOrCreate(
-            ['email' => 'customer@foodbrio.local'],
+            ['email' => 'customer@fastflow.local'],
             [
                 'name' => 'Zainab Siddiqui',
                 'phone' => '+92-300-7778899',

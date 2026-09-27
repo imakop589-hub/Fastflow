@@ -45,7 +45,7 @@ export const Navbar: React.FC<NavbarProps> = ({
           <span className="inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-bold bg-orange-500/20 text-orange-400 border border-orange-500/30">
             PHASE 1 CORE
           </span>
-          <span className="hidden sm:inline text-slate-400">Laravel 11 + Vue 3 Architecture & RBAC System</span>
+          <span className="hidden sm:inline text-slate-400">Laravel 11 + React 19 Architecture & RBAC System</span>
         </div>
 
         <div className="flex items-center space-x-3">
@@ -93,11 +93,11 @@ export const Navbar: React.FC<NavbarProps> = ({
               className="flex items-center space-x-2.5 group text-left"
             >
               <div className="w-9 h-9 rounded-xl bg-gradient-to-tr from-orange-600 to-amber-500 flex items-center justify-center font-black text-white text-base shadow-sm group-hover:scale-105 transition-transform">
-                FB
+                FF
               </div>
               <div>
                 <span className="text-xl font-extrabold text-slate-900 tracking-tight flex items-center gap-1">
-                  FoodBrio
+                  Fastflow
                   <span className="text-orange-600 font-black text-sm">Marketplace</span>
                 </span>
                 <span className="block text-[10px] text-slate-500 tracking-wider uppercase font-semibold">Multi-Vendor Platform</span>

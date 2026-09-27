@@ -1,4 +1,4 @@
-# FoodBrio Marketplace — Changelog
+# Fastflow Marketplace — Changelog
 
 ## [1.0.0-phase1] - 2026-09-27
 ### Phase 1: Foundation, Database, Authentication & Admin/Restaurant Core

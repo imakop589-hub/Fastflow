@@ -1,4 +1,4 @@
-# FoodBrio Marketplace — Installation Guide
+# Fastflow Marketplace — Installation Guide
 
 ## System Requirements
 - **PHP**: 8.2 or higher
@@ -14,8 +14,8 @@
 
 ```bash
 # Clone the repository
-git clone https://github.com/your-vendor/foodbrio-marketplace.git
-cd foodbrio-marketplace
+git clone https://github.com/imakop589-hub/Fastflow.git
+cd Fastflow
 
 # Install PHP dependencies
 composer install --optimize-autoloader --no-dev
@@ -41,7 +41,7 @@ Configure your `.env` database parameters:
 DB_CONNECTION=mysql
 DB_HOST=127.0.0.1
 DB_PORT=3306
-DB_DATABASE=foodbrio_db
+DB_DATABASE=fastflow_db
 DB_USERNAME=your_mysql_username
 DB_PASSWORD=your_secure_password
 ```
@@ -57,8 +57,8 @@ php artisan migrate --seed
 ```
 
 This provisions:
-- Super Admin account: `superadmin@foodbrio.local` (Password: `DemoSecret@2026!`)
-- Operations Admin: `admin@foodbrio.local` (Password: `DemoSecret@2026!`)
+- Super Admin account: `superadmin@fastflow.local` (Password: `DemoSecret@2026!`)
+- Operations Admin: `admin@fastflow.local` (Password: `DemoSecret@2026!`)
 - Demo Restaurant Owners (Urban Spoon, Green Bowl, Daily Grill)
 
 ---

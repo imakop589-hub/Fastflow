@@ -23,10 +23,10 @@ class RestaurantSeeder extends Seeder
         $karachi = City::where('slug', 'karachi')->first();
         $clifton = Area::where('slug', 'clifton-block-4')->first();
 
-        $owner1 = User::where('email', 'owner.urbanspoon@foodbrio.local')->first();
-        $owner2 = User::where('email', 'owner.greenbowl@foodbrio.local')->first();
-        $owner3 = User::where('email', 'owner.dailygrill@foodbrio.local')->first();
-        $staff1 = User::where('email', 'staff.urbanspoon@foodbrio.local')->first();
+        $owner1 = User::where('email', 'owner.urbanspoon@fastflow.local')->first();
+        $owner2 = User::where('email', 'owner.greenbowl@fastflow.local')->first();
+        $owner3 = User::where('email', 'owner.dailygrill@fastflow.local')->first();
+        $staff1 = User::where('email', 'staff.urbanspoon@fastflow.local')->first();
 
         // 1. Urban Spoon (Approved & Active)
         if ($owner1) {

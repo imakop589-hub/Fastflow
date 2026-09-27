@@ -29,7 +29,7 @@ const INITIAL_USERS: User[] = [
   {
     id: 1,
     name: 'Farhan Qureshi',
-    email: 'superadmin@foodbrio.local',
+    email: 'superadmin@fastflow.local',
     phone: '+92-300-1112233',
     status: 'active',
     roles: ['super-admin'],
@@ -39,7 +39,7 @@ const INITIAL_USERS: User[] = [
   {
     id: 2,
     name: 'Ayesha Khan',
-    email: 'admin@foodbrio.local',
+    email: 'admin@fastflow.local',
     phone: '+92-300-2223344',
     status: 'active',
     roles: ['admin'],
@@ -49,7 +49,7 @@ const INITIAL_USERS: User[] = [
   {
     id: 3,
     name: 'Tariq Mehmood',
-    email: 'owner.urbanspoon@foodbrio.local',
+    email: 'owner.urbanspoon@fastflow.local',
     phone: '+92-300-3334455',
     status: 'active',
     roles: ['restaurant-owner'],
@@ -60,7 +60,7 @@ const INITIAL_USERS: User[] = [
   {
     id: 4,
     name: 'Sara Danish',
-    email: 'owner.greenbowl@foodbrio.local',
+    email: 'owner.greenbowl@fastflow.local',
     phone: '+92-300-4445566',
     status: 'active',
     roles: ['restaurant-owner'],
@@ -71,7 +71,7 @@ const INITIAL_USERS: User[] = [
   {
     id: 5,
     name: 'Bilal Ahmed',
-    email: 'owner.dailygrill@foodbrio.local',
+    email: 'owner.dailygrill@fastflow.local',
     phone: '+92-300-5556677',
     status: 'active',
     roles: ['restaurant-owner'],
@@ -82,7 +82,7 @@ const INITIAL_USERS: User[] = [
   {
     id: 6,
     name: 'Hamza Ali (Lead)',
-    email: 'staff.urbanspoon@foodbrio.local',
+    email: 'staff.urbanspoon@fastflow.local',
     phone: '+92-300-6667788',
     status: 'active',
     roles: ['restaurant-staff'],
@@ -92,7 +92,7 @@ const INITIAL_USERS: User[] = [
   {
     id: 7,
     name: 'Zainab Siddiqui',
-    email: 'customer@foodbrio.local',
+    email: 'customer@fastflow.local',
     phone: '+92-300-7778899',
     status: 'active',
     roles: ['customer'],
@@ -230,7 +230,7 @@ const INITIAL_RESTAURANTS: Restaurant[] = [
     id: 1,
     owner_id: 3,
     owner_name: 'Tariq Mehmood',
-    owner_email: 'owner.urbanspoon@foodbrio.local',
+    owner_email: 'owner.urbanspoon@fastflow.local',
     name: 'Urban Spoon',
     slug: 'urban-spoon',
     logo: 'https://images.unsplash.com/photo-1555396273-367ea4eb4db5?auto=format&fit=crop&w=300&q=80',
@@ -261,7 +261,7 @@ const INITIAL_RESTAURANTS: Restaurant[] = [
     id: 2,
     owner_id: 4,
     owner_name: 'Sara Danish',
-    owner_email: 'owner.greenbowl@foodbrio.local',
+    owner_email: 'owner.greenbowl@fastflow.local',
     name: 'Green Bowl',
     slug: 'green-bowl',
     logo: 'https://images.unsplash.com/photo-1540420773420-3366772f4999?auto=format&fit=crop&w=300&q=80',
@@ -292,7 +292,7 @@ const INITIAL_RESTAURANTS: Restaurant[] = [
     id: 3,
     owner_id: 5,
     owner_name: 'Bilal Ahmed',
-    owner_email: 'owner.dailygrill@foodbrio.local',
+    owner_email: 'owner.dailygrill@fastflow.local',
     name: 'Daily Grill',
     slug: 'daily-grill',
     logo: 'https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=300&q=80',
@@ -322,7 +322,7 @@ const INITIAL_RESTAURANTS: Restaurant[] = [
     id: 4,
     owner_id: 3, // Multi-restaurant portfolio owner Tariq Mehmood
     owner_name: 'Tariq Mehmood',
-    owner_email: 'owner.urbanspoon@foodbrio.local',
+    owner_email: 'owner.urbanspoon@fastflow.local',
     name: 'Urban Artisan Bakery',
     slug: 'urban-artisan-bakery',
     logo: 'https://images.unsplash.com/photo-1509440159596-0249088772ff?auto=format&fit=crop&w=300&q=80',
@@ -357,7 +357,7 @@ const INITIAL_STAFF: RestaurantStaff[] = [
     restaurant_id: 1,
     user_id: 6,
     name: 'Hamza Ali (Lead)',
-    email: 'staff.urbanspoon@foodbrio.local',
+    email: 'staff.urbanspoon@fastflow.local',
     phone: '+92-300-6667788',
     role: 'staff',
     status: 'active',
@@ -366,9 +366,9 @@ const INITIAL_STAFF: RestaurantStaff[] = [
 ];
 
 const INITIAL_SETTINGS: Setting[] = [
-  { id: 1, key: 'app_name', value: 'FoodBrio Marketplace', group: 'general', type: 'string', is_public: true },
-  { id: 2, key: 'support_email', value: 'support@foodbrio.local', group: 'general', type: 'string', is_public: true },
-  { id: 3, key: 'support_phone', value: '+92-800-FOODBRIO', group: 'general', type: 'string', is_public: true },
+  { id: 1, key: 'app_name', value: 'Fastflow Marketplace', group: 'general', type: 'string', is_public: true },
+  { id: 2, key: 'support_email', value: 'support@fastflow.local', group: 'general', type: 'string', is_public: true },
+  { id: 3, key: 'support_phone', value: '+92-800-FASTFLOW', group: 'general', type: 'string', is_public: true },
   { id: 4, key: 'brand_tagline', value: 'Discover curated restaurants and artisanal cuisine delivered fast.', group: 'branding', type: 'string', is_public: true },
   { id: 5, key: 'default_country', value: 'Pakistan (PK)', group: 'localization', type: 'string', is_public: true },
   { id: 6, key: 'default_currency', value: 'USD ($)', group: 'currency', type: 'string', is_public: true },
@@ -937,7 +937,7 @@ class MockBackendService {
 
     // Test 1: IDOR Protection (Profile Update)
     try {
-      const owner1 = this.users.find(u => u.email === 'owner.urbanspoon@foodbrio.local')!;
+      const owner1 = this.users.find(u => u.email === 'owner.urbanspoon@fastflow.local')!;
       const rest2 = this.restaurants.find(r => r.slug === 'green-bowl')!;
       
       // Simulate Owner 1 attempting to update Restaurant 2
@@ -962,7 +962,7 @@ class MockBackendService {
 
     // Test 2: IDOR Protection (Operating Hours Tampering)
     try {
-      const owner2 = this.users.find(u => u.email === 'owner.greenbowl@foodbrio.local')!;
+      const owner2 = this.users.find(u => u.email === 'owner.greenbowl@fastflow.local')!;
       const rest1 = this.restaurants.find(r => r.slug === 'urban-spoon')!;
       if (rest1.owner_id !== owner2.id) {
         results.push({
@@ -985,7 +985,7 @@ class MockBackendService {
 
     // Test 3: IDOR Protection (Staff List Exposure)
     try {
-      const owner2 = this.users.find(u => u.email === 'owner.greenbowl@foodbrio.local')!;
+      const owner2 = this.users.find(u => u.email === 'owner.greenbowl@fastflow.local')!;
       const rest1 = this.restaurants.find(r => r.slug === 'urban-spoon')!;
       if (rest1.owner_id !== owner2.id) {
         results.push({
@@ -1008,7 +1008,7 @@ class MockBackendService {
 
     // Test 4: IDOR Protection (Staff Assignment Privilege)
     try {
-      const owner2 = this.users.find(u => u.email === 'owner.greenbowl@foodbrio.local')!;
+      const owner2 = this.users.find(u => u.email === 'owner.greenbowl@fastflow.local')!;
       const rest1 = this.restaurants.find(r => r.slug === 'urban-spoon')!;
       if (rest1.owner_id !== owner2.id) {
         results.push({
@@ -1030,7 +1030,7 @@ class MockBackendService {
     }
 
     // Test 5: Multi-Restaurant Architecture Isolation
-    const ownerTariq = this.users.find(u => u.email === 'owner.urbanspoon@foodbrio.local');
+    const ownerTariq = this.users.find(u => u.email === 'owner.urbanspoon@fastflow.local');
     const tariqRestaurants = this.restaurants.filter(r => r.owner_id === ownerTariq?.id);
     if (tariqRestaurants.length >= 2) {
       results.push({

@@ -1,18 +1,18 @@
-# FoodBrio Marketplace — Authentication Architecture
+# Fastflow Marketplace — Authentication Architecture
 
 ## Overview
-FoodBrio uses **Laravel Sanctum** token-based authentication paired with standard Bcrypt/Argon2id password hashing.
+Fastflow uses **Laravel Sanctum** token-based authentication paired with standard Bcrypt/Argon2id password hashing.
 
 ### Demo Seed Accounts
 | Role | Email | Password | Access Scope |
 |---|---|---|---|
-| **Super Admin** | `superadmin@foodbrio.local` | `DemoSecret@2026!` | All system modules & settings |
-| **Operations Admin**| `admin@foodbrio.local` | `DemoSecret@2026!` | Restaurant approvals & user reviews |
-| **Owner (Urban Spoon)** | `owner.urbanspoon@foodbrio.local` | `DemoSecret@2026!` | Urban Spoon profile, hours, staff |
-| **Owner (Green Bowl)** | `owner.greenbowl@foodbrio.local` | `DemoSecret@2026!` | Green Bowl profile, hours, staff |
-| **Owner (Daily Grill)** | `owner.dailygrill@foodbrio.local` | `DemoSecret@2026!` | Pending application state |
-| **Restaurant Staff** | `staff.urbanspoon@foodbrio.local` | `DemoSecret@2026!` | Urban Spoon order/profile view |
-| **Customer** | `customer@foodbrio.local` | `DemoSecret@2026!` | Marketplace browsing |
+| **Super Admin** | `superadmin@fastflow.local` | `DemoSecret@2026!` | All system modules & settings |
+| **Operations Admin**| `admin@fastflow.local` | `DemoSecret@2026!` | Restaurant approvals & user reviews |
+| **Owner (Urban Spoon)** | `owner.urbanspoon@fastflow.local` | `DemoSecret@2026!` | Urban Spoon profile, hours, staff |
+| **Owner (Green Bowl)** | `owner.greenbowl@fastflow.local` | `DemoSecret@2026!` | Green Bowl profile, hours, staff |
+| **Owner (Daily Grill)** | `owner.dailygrill@fastflow.local` | `DemoSecret@2026!` | Pending application state |
+| **Restaurant Staff** | `staff.urbanspoon@fastflow.local` | `DemoSecret@2026!` | Urban Spoon order/profile view |
+| **Customer** | `customer@fastflow.local` | `DemoSecret@2026!` | Marketplace browsing |
 
 *Note: For production deployments, change these passwords immediately via the Admin dashboard or `php artisan tinker`.*
 

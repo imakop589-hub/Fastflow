@@ -1,4 +1,4 @@
-# FoodBrio Marketplace — Database Architecture
+# Fastflow Marketplace — Database Architecture
 
 ## ERD & Schema Overview
 

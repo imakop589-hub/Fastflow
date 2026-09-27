@@ -7,7 +7,7 @@ interface AdminLayoutProps {
 }
 
 export const AdminLayout: React.FC<AdminLayoutProps> = ({
-  user = { name: 'Administrator', email: 'admin@foodbrio.local' },
+  user = { name: 'Administrator', email: 'admin@fastflow.local' },
   title = 'Admin Portal',
   children,
 }) => {
@@ -18,8 +18,8 @@ export const AdminLayout: React.FC<AdminLayoutProps> = ({
       {/* Mobile Header */}
       <div className="md:hidden bg-slate-900 text-white p-4 flex items-center justify-between">
         <div className="flex items-center space-x-2">
-          <div className="w-8 h-8 rounded-lg bg-orange-600 flex items-center justify-center font-bold text-white text-xs">FB</div>
-          <span className="font-bold text-base">FoodBrio Admin</span>
+          <div className="w-8 h-8 rounded-lg bg-orange-600 flex items-center justify-center font-bold text-white text-xs">FF</div>
+          <span className="font-bold text-base">Fastflow Admin</span>
         </div>
         <button
           onClick={() => setSidebarOpen(!sidebarOpen)}
@@ -40,10 +40,10 @@ export const AdminLayout: React.FC<AdminLayoutProps> = ({
       >
         <div className="p-6 border-b border-slate-800 hidden md:flex items-center space-x-3">
           <div className="w-9 h-9 rounded-xl bg-orange-600 flex items-center justify-center font-bold text-white text-base shadow-md shadow-orange-600/30">
-            FB
+            FF
           </div>
           <div>
-            <h1 className="font-bold text-white tracking-wide text-sm">FoodBrio</h1>
+            <h1 className="font-bold text-white tracking-wide text-sm">Fastflow</h1>
             <p className="text-[11px] text-slate-400">Enterprise Administration</p>
           </div>
         </div>

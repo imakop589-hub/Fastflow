@@ -1,5 +1,5 @@
 {
-  "name": "FoodBrio Multi-Vendor Marketplace",
+  "name": "Fastflow Multi-Vendor Marketplace",
   "description": "Enterprise-grade multi-vendor food delivery marketplace platform featuring role-based administration, restaurant onboarding, opening hours, and merchant portal.",
   "requestFramePermissions": [],
   "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]

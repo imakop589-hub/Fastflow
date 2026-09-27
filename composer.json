@@ -1,9 +1,9 @@
 {
-    "name": "foodbrio/marketplace",
+    "name": "fastflow/marketplace",
     "type": "project",
-    "description": "FoodBrio - Enterprise Multi-Vendor Food Delivery Marketplace Platform (Phase 1 Foundation)",
-    "keywords": ["laravel", "marketplace", "food-delivery", "multi-vendor", "vue3", "codecanyon"],
-    "license": "Commercial",
+    "description": "Fastflow - Enterprise Multi-Vendor Food Delivery Marketplace Platform (Phase 1 Foundation)",
+    "keywords": ["laravel", "marketplace", "food-delivery", "multi-vendor", "react", "typescript", "tailwind"],
+    "license": "Proprietary",
     "require": {
         "php": "^8.2",
         "laravel/framework": "^11.0",

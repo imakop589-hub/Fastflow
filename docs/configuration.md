@@ -1,4 +1,4 @@
-# FoodBrio Marketplace — Configuration Guide
+# Fastflow Marketplace — Configuration Guide
 
 ## Configuration Files Overview
 
@@ -14,14 +14,14 @@
 
 ## System Settings Table
 
-FoodBrio stores dynamic operational configuration in the `settings` database table, cached for optimal response performance:
+Fastflow stores dynamic operational configuration in the `settings` database table, cached for optimal response performance:
 
 ```php
 // Reading a setting with fallback:
 $currency = \App\Models\Setting::get('default_currency', 'USD');
 
 // Storing a setting programmatically:
-\App\Models\Setting::set('app_name', 'FoodBrio Marketplace', 'general', 'string', true);
+\App\Models\Setting::set('app_name', 'Fastflow Marketplace', 'general', 'string', true);
 ```
 
 ### Supported Groups

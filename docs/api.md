@@ -1,4 +1,4 @@
-# FoodBrio Marketplace — API v1 Documentation
+# Fastflow Marketplace — API v1 Documentation
 
 All requests and responses use JSON. Sensitive secrets (passwords, tokens, database keys) are strictly filtered out by API Resources.
 

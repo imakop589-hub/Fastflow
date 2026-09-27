@@ -200,7 +200,7 @@ export const PublicMarketplace: React.FC<PublicMarketplaceProps> = ({
         <div className="space-y-2 text-center sm:text-left">
           <h3 className="text-lg font-black text-slate-900">Are you a restaurant or kitchen owner?</h3>
           <p className="text-xs text-slate-600 max-w-lg leading-relaxed">
-            Expand your culinary reach. Submit your restaurant application to join FoodBrio and access our operational merchant portal.
+            Expand your culinary reach. Submit your restaurant application to join Fastflow and access our operational merchant portal.
           </p>
         </div>
         <button
