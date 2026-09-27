@@ -70,6 +70,22 @@ class Restaurant extends Model
                 $restaurant->slug = Str::slug($restaurant->name) . '-' . Str::random(5);
             }
         });
+
+        // Ensure canonical relational location is synchronized with display columns
+        static::saving(function (Restaurant $restaurant) {
+            if ($restaurant->city_id) {
+                $city = City::find($restaurant->city_id);
+                if ($city) {
+                    $restaurant->city = $city->name;
+                }
+            }
+            if ($restaurant->area_id) {
+                $area = Area::find($restaurant->area_id);
+                if ($area) {
+                    $restaurant->area = $area->name;
+                }
+            }
+        });
     }
 
     public function owner(): BelongsTo

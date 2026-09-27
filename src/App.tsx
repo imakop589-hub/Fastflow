@@ -235,7 +235,10 @@ export default function App() {
 
             {/* Merchant Subtab Contents */}
             {merchantSubtab === 'dashboard' && (
-              <RestaurantDashboard onNavigateSubtab={(sub) => setMerchantSubtab(sub)} />
+              <RestaurantDashboard
+                onNavigateSubtab={(sub) => setMerchantSubtab(sub)}
+                onRefresh={refreshState}
+              />
             )}
             {merchantSubtab === 'profile' && <RestaurantProfileEditor onRefresh={refreshState} />}
             {merchantSubtab === 'hours' && <RestaurantHoursEditor onRefresh={refreshState} />}

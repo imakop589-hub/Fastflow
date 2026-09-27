@@ -8,7 +8,8 @@ This document details all open-source packages and runtime libraries utilized in
 | **Laravel Sanctum** | `^4.0` | Lightweight API token authentication | MIT | https://github.com/laravel/sanctum |
 | **Laravel Tinker** | `^2.9` | REPL interactive debugging shell | MIT | https://github.com/laravel/tinker |
 | **PHPUnit** | `^11.0` | Unit & Feature testing framework | BSD-3-Clause | https://github.com/sebastianbergmann/phpunit |
-| **Vue.js** | `^3.4` | Progressive frontend UI framework | MIT | https://github.com/vuejs/core |
+| **React** | `^19.0` | Declarative, component-based user interface library | MIT | https://github.com/facebook/react |
+| **React DOM** | `^19.0` | React package for working with the DOM | MIT | https://github.com/facebook/react |
 | **Tailwind CSS** | `^4.3` | Utility-first CSS engine | MIT | https://github.com/tailwindlabs/tailwindcss |
 | **Vite** | `^8.3` | Next-generation frontend build tooling | MIT | https://github.com/vitejs/vite |
 | **Lucide Icons** | `^0.546` | Clean, customizable iconography | ISC | https://github.com/lucide-icons/lucide |

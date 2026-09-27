@@ -48,6 +48,42 @@ class RestaurantIsolationTest extends TestCase
             ->getJson("/api/v1/admin/restaurants/{$restaurant2->id}");
 
         $adminResponse->assertStatus(403);
+
+        // Explicit IDOR test: Owner 1 attempts to pass restaurant2 directly to owner parameterized route
+        $idorResponse = $this->withHeader('Authorization', "Bearer {$token1}")
+            ->putJson("/api/v1/owner/restaurants/{$restaurant2->id}", [
+                'name' => 'IDOR Exploit Attempt',
+            ]);
+
+        $idorResponse->assertStatus(403);
+    }
+
+    public function test_owner_can_own_and_manage_multiple_restaurants(): void
+    {
+        $owner = User::factory()->create();
+        $owner->roles()->attach(Role::where('slug', 'restaurant-owner')->first()->id);
+
+        $restaurantA = Restaurant::factory()->create(['owner_id' => $owner->id, 'name' => 'Brand A Downtown']);
+        $restaurantB = Restaurant::factory()->create(['owner_id' => $owner->id, 'name' => 'Brand B Uptown']);
+
+        $token = $owner->createToken('test')->plainTextToken;
+
+        // Owner can list all their owned restaurants
+        $listResponse = $this->withHeader('Authorization', "Bearer {$token}")
+            ->getJson("/api/v1/owner/restaurants");
+
+        $listResponse->assertStatus(200);
+        $listResponse->assertJsonCount(2, 'data');
+
+        // Owner can update Restaurant B specifically without affecting Restaurant A
+        $updateResponse = $this->withHeader('Authorization', "Bearer {$token}")
+            ->putJson("/api/v1/owner/restaurants/{$restaurantB->id}", [
+                'name' => 'Brand B Uptown Renewed',
+            ]);
+
+        $updateResponse->assertStatus(200);
+        $this->assertEquals('Brand B Uptown Renewed', $restaurantB->fresh()->name);
+        $this->assertEquals('Brand A Downtown', $restaurantA->fresh()->name);
     }
 
     public function test_restaurant_staff_cannot_view_or_manage_another_restaurant(): void

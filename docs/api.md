@@ -37,13 +37,20 @@ All requests and responses use JSON. Sensitive secrets (passwords, tokens, datab
 - `GET /api/v1/restaurants/{slug}`: Single restaurant public profile with operating hours
 
 ### 3. Merchant / Restaurant Owner
-- `GET /api/v1/owner/restaurant`: Current owner's restaurant profile
-- `POST /api/v1/owner/restaurant`: Submit initial onboarding application
-- `PUT /api/v1/owner/restaurant`: Update restaurant basic details
-- `GET /api/v1/owner/hours`: Retrieve 7-day schedule
-- `PUT /api/v1/owner/hours`: Save 7-day schedule
-- `GET /api/v1/owner/staff`: List staff assigned to own restaurant
-- `POST /api/v1/owner/staff`: Add staff member
+- `GET /api/v1/owner/restaurants`: List all owned restaurants in merchant portfolio
+- `GET /api/v1/owner/restaurant`: Primary/default owner restaurant profile
+- `GET /api/v1/owner/restaurants/{id}`: Specific owned restaurant profile (IDOR protected)
+- `POST /api/v1/owner/restaurant`: Submit onboarding application (supports multiple applications per owner)
+- `PUT /api/v1/owner/restaurant`: Update primary restaurant basic details
+- `PUT /api/v1/owner/restaurants/{id}`: Update specific owned restaurant profile (IDOR protected)
+- `GET /api/v1/owner/hours`: Retrieve 7-day schedule for primary restaurant
+- `GET /api/v1/owner/restaurants/{id}/hours`: Retrieve 7-day schedule for specific owned restaurant
+- `PUT /api/v1/owner/hours`: Save 7-day schedule for primary restaurant
+- `PUT /api/v1/owner/restaurants/{id}/hours`: Save 7-day schedule for specific owned restaurant
+- `GET /api/v1/owner/staff`: List staff assigned to primary restaurant
+- `GET /api/v1/owner/restaurants/{id}/staff`: List staff assigned to specific owned restaurant
+- `POST /api/v1/owner/staff`: Add staff member to primary restaurant
+- `POST /api/v1/owner/restaurants/{id}/staff`: Add staff member to specific owned restaurant
 - `PUT /api/v1/owner/staff/{id}/toggle-status`: Activate/Deactivate staff member
 - `DELETE /api/v1/owner/staff/{id}`: Delete staff member
 

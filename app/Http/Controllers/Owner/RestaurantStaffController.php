@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Owner;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Owner\CreateStaffRequest;
 use App\Http\Resources\RestaurantStaffResource;
+use App\Models\Restaurant;
 use App\Models\RestaurantStaff;
 use App\Models\Role;
 use App\Models\User;
@@ -16,10 +17,16 @@ use Illuminate\Support\Facades\Hash;
 
 class RestaurantStaffController extends Controller
 {
-    public function index(Request $request): JsonResponse
+    public function index(Request $request, ?Restaurant $restaurant = null): JsonResponse
     {
         $user = $request->user();
-        $restaurant = $user->primaryRestaurant;
+
+        if (! $restaurant) {
+            $restaurantId = $request->query('restaurant_id');
+            $restaurant = $restaurantId 
+                ? Restaurant::find($restaurantId)
+                : $user->primaryRestaurant;
+        }
 
         if (! $restaurant) {
             return $this->errorResponse('Restaurant not found', null, 404);
@@ -35,16 +42,22 @@ class RestaurantStaffController extends Controller
         return $this->successResponse(RestaurantStaffResource::collection($staff), 'Staff members retrieved');
     }
 
-    public function store(CreateStaffRequest $request): JsonResponse
+    public function store(CreateStaffRequest $request, ?Restaurant $restaurant = null): JsonResponse
     {
         $user = $request->user();
-        $restaurant = $user->primaryRestaurant;
+
+        if (! $restaurant) {
+            $restaurantId = $request->input('restaurant_id') ?? $request->query('restaurant_id');
+            $restaurant = $restaurantId 
+                ? Restaurant::find($restaurantId)
+                : $user->primaryRestaurant;
+        }
 
         if (! $restaurant) {
             return $this->errorResponse('Restaurant not found', null, 404);
         }
 
-        $validated = $request->validated();
+        $this->authorize('create', [RestaurantStaff::class, $restaurant]);
 
         $staffRecord = DB::transaction(function () use ($validated, $restaurant, $user) {
             $staffUser = User::create([

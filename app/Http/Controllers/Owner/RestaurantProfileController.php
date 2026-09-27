@@ -19,12 +19,36 @@ class RestaurantProfileController extends Controller
     ) {}
 
     /**
-     * Get the authenticated owner's restaurant profile.
+     * List all restaurants owned by the authenticated owner.
      */
-    public function show(Request $request): JsonResponse
+    public function index(Request $request): JsonResponse
     {
         $user = $request->user();
-        $restaurant = $user->primaryRestaurant;
+        $restaurants = $user->ownedRestaurants()
+            ->with(['hours', 'staff.user', 'cityRef', 'areaRef'])
+            ->latest()
+            ->get();
+
+        return $this->successResponse(
+            RestaurantDetailResource::collection($restaurants),
+            'Owned restaurants retrieved successfully'
+        );
+    }
+
+    /**
+     * Get the authenticated owner's restaurant profile.
+     * Supports specific restaurant parameter or fallback to primary restaurant.
+     */
+    public function show(Request $request, ?Restaurant $restaurant = null): JsonResponse
+    {
+        $user = $request->user();
+
+        if (! $restaurant) {
+            $restaurantId = $request->query('restaurant_id');
+            $restaurant = $restaurantId 
+                ? Restaurant::find($restaurantId)
+                : $user->primaryRestaurant;
+        }
 
         if (! $restaurant) {
             return $this->errorResponse('No restaurant found for this account. Please submit an application.', null, 404);
@@ -40,15 +64,11 @@ class RestaurantProfileController extends Controller
 
     /**
      * Submit a new restaurant onboarding application.
+     * Multi-vendor architecture: an owner can operate multiple restaurants/branches.
      */
     public function store(RestaurantApplicationRequest $request): JsonResponse
     {
         $user = $request->user();
-
-        // Enforce single restaurant application in Phase 1 if already exists
-        if ($user->primaryRestaurant) {
-            return $this->errorResponse('You already have a restaurant associated with your account.', null, 422);
-        }
 
         $validated = $request->validated();
 
@@ -71,12 +91,18 @@ class RestaurantProfileController extends Controller
 
     /**
      * Update the authenticated owner's restaurant profile.
-     * Guaranteed IDOR safe: always binds to owner's authorized restaurant.
+     * Guaranteed IDOR safe: always asserts authorization on target restaurant.
      */
-    public function update(UpdateRestaurantProfileRequest $request): JsonResponse
+    public function update(UpdateRestaurantProfileRequest $request, ?Restaurant $restaurant = null): JsonResponse
     {
         $user = $request->user();
-        $restaurant = $user->primaryRestaurant;
+
+        if (! $restaurant) {
+            $restaurantId = $request->input('restaurant_id') ?? $request->query('restaurant_id');
+            $restaurant = $restaurantId
+                ? Restaurant::find($restaurantId)
+                : $user->primaryRestaurant;
+        }
 
         if (! $restaurant) {
             return $this->errorResponse('Restaurant not found', null, 404);

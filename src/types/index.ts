@@ -38,6 +38,20 @@ export interface LocationItem {
   slug: string;
 }
 
+export interface City {
+  id: number;
+  country_id: number;
+  name: string;
+  slug: string;
+}
+
+export interface Area {
+  id: number;
+  city_id: number;
+  name: string;
+  slug: string;
+}
+
 export interface RestaurantHour {
   id: number;
   restaurant_id: number;
@@ -77,6 +91,9 @@ export interface Restaurant {
   phone: string;
   email: string;
   address: string;
+  country_id?: number;
+  city_id?: number;
+  area_id?: number;
   city: string;
   area: string;
   postal_code?: string;

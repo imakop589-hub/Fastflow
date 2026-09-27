@@ -35,17 +35,24 @@ Route::prefix('v1')->group(function () {
         Route::post('/auth/logout', [AuthController::class, 'logout']);
         Route::get('/me', [AuthController::class, 'me']);
 
-        // Restaurant Owner Routes
+        // Restaurant Owner Routes (Supports both primary restaurant and multi-vendor portfolio)
         Route::prefix('owner')->group(function () {
+            Route::get('/restaurants', [RestaurantProfileController::class, 'index']);
             Route::get('/restaurant', [RestaurantProfileController::class, 'show']);
+            Route::get('/restaurants/{restaurant}', [RestaurantProfileController::class, 'show']);
             Route::post('/restaurant', [RestaurantProfileController::class, 'store']);
             Route::put('/restaurant', [RestaurantProfileController::class, 'update']);
+            Route::put('/restaurants/{restaurant}', [RestaurantProfileController::class, 'update']);
 
             Route::get('/hours', [RestaurantHourController::class, 'index']);
+            Route::get('/restaurants/{restaurant}/hours', [RestaurantHourController::class, 'index']);
             Route::put('/hours', [RestaurantHourController::class, 'update']);
+            Route::put('/restaurants/{restaurant}/hours', [RestaurantHourController::class, 'update']);
 
             Route::get('/staff', [RestaurantStaffController::class, 'index']);
+            Route::get('/restaurants/{restaurant}/staff', [RestaurantStaffController::class, 'index']);
             Route::post('/staff', [RestaurantStaffController::class, 'store']);
+            Route::post('/restaurants/{restaurant}/staff', [RestaurantStaffController::class, 'store']);
             Route::put('/staff/{staff}/toggle-status', [RestaurantStaffController::class, 'toggleStatus']);
             Route::delete('/staff/{staff}', [RestaurantStaffController::class, 'destroy']);
         });

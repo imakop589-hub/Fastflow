@@ -13,7 +13,9 @@
 - Normalized geographical foundation. Seeded with demo cities (Lahore, Karachi, Islamabad) and areas (Gulberg, DHA, F-7, Clifton).
 
 ### 4. `restaurants`
-- Main merchant model. Includes `owner_id` (foreign key to `users`), location references (`country_id`, `city_id`, `area_id`), financial constraints (`minimum_order_amount`, `delivery_fee`), timing buffers (`delivery_time_min`, `delivery_time_max`), and audit status flags (`approval_status`, `status`, `approved_at`, `rejection_reason`).
+- Main merchant model. Connects to `users` via `owner_id` in a 1-to-many relationship (one owner can register and manage multiple restaurants or branch locations).
+- Canonical location foreign keys (`country_id`, `city_id`, `area_id`) serve as the single source of truth for location matching and geofencing. Plaintext display fields (`city`, `area`) are kept synchronized via Eloquent model saving hooks and accessors.
+- Financial constraints (`minimum_order_amount`, `delivery_fee`), timing buffers (`delivery_time_min`, `delivery_time_max`), and audit status flags (`approval_status`, `status`, `approved_at`, `rejection_reason`).
 - Soft deletes enabled.
 
 ### 5. `restaurant_hours`

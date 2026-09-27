@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Owner;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Owner\UpdateRestaurantHoursRequest;
+use App\Models\Restaurant;
 use App\Models\RestaurantHour;
 use App\Services\AuditLogService;
 use Illuminate\Http\JsonResponse;
@@ -11,10 +12,16 @@ use Illuminate\Http\Request;
 
 class RestaurantHourController extends Controller
 {
-    public function index(Request $request): JsonResponse
+    public function index(Request $request, ?Restaurant $restaurant = null): JsonResponse
     {
         $user = $request->user();
-        $restaurant = $user->primaryRestaurant;
+
+        if (! $restaurant) {
+            $restaurantId = $request->query('restaurant_id');
+            $restaurant = $restaurantId 
+                ? Restaurant::find($restaurantId)
+                : $user->primaryRestaurant;
+        }
 
         if (! $restaurant) {
             return $this->errorResponse('Restaurant not found', null, 404);
@@ -27,10 +34,16 @@ class RestaurantHourController extends Controller
         return $this->successResponse($hours, 'Opening hours retrieved');
     }
 
-    public function update(UpdateRestaurantHoursRequest $request): JsonResponse
+    public function update(UpdateRestaurantHoursRequest $request, ?Restaurant $restaurant = null): JsonResponse
     {
         $user = $request->user();
-        $restaurant = $user->primaryRestaurant;
+
+        if (! $restaurant) {
+            $restaurantId = $request->input('restaurant_id') ?? $request->query('restaurant_id');
+            $restaurant = $restaurantId 
+                ? Restaurant::find($restaurantId)
+                : $user->primaryRestaurant;
+        }
 
         if (! $restaurant) {
             return $this->errorResponse('Restaurant not found', null, 404);

@@ -15,9 +15,11 @@ import { backend } from '../services/mockBackend';
 
 interface RestaurantDashboardProps {
   onNavigateSubtab: (subtab: string) => void;
+  onRefresh?: () => void;
 }
 
-export const RestaurantDashboard: React.FC<RestaurantDashboardProps> = ({ onNavigateSubtab }) => {
+export const RestaurantDashboard: React.FC<RestaurantDashboardProps> = ({ onNavigateSubtab, onRefresh }) => {
+  const ownedRestaurants = backend.getOwnerRestaurants();
   const restaurant = backend.getOwnerRestaurant();
   const staff = restaurant ? backend.getStaffForRestaurant(restaurant.id) : [];
 
@@ -45,6 +47,37 @@ export const RestaurantDashboard: React.FC<RestaurantDashboardProps> = ({ onNavi
 
   return (
     <div className="space-y-6">
+      {/* Multi-Restaurant Portfolio Switcher if owner has 2+ stores */}
+      {ownedRestaurants.length > 1 && (
+        <div className="bg-white rounded-2xl p-3 border border-orange-200 shadow-xs flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+          <div className="flex items-center space-x-2">
+            <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse" />
+            <span className="text-xs font-bold text-slate-700">Multi-Vendor Portfolio:</span>
+            <span className="text-xs text-slate-500">You manage {ownedRestaurants.length} registered restaurant locations</span>
+          </div>
+
+          <div className="flex items-center space-x-1.5 overflow-x-auto">
+            {ownedRestaurants.map((r) => (
+              <button
+                key={r.id}
+                onClick={() => {
+                  backend.setSelectedRestaurantId(r.id);
+                  if (onRefresh) onRefresh();
+                }}
+                className={`px-3 py-1.5 rounded-xl text-xs font-bold transition flex items-center space-x-1.5 whitespace-nowrap ${
+                  r.id === restaurant.id
+                    ? 'bg-orange-600 text-white shadow-xs'
+                    : 'bg-slate-100 text-slate-700 hover:bg-slate-200'
+                }`}
+              >
+                <Store className="w-3.5 h-3.5" />
+                <span>{r.name}</span>
+              </button>
+            ))}
+          </div>
+        </div>
+      )}
+
       {/* Banner Card */}
       <div className="bg-gradient-to-r from-orange-600 to-amber-600 rounded-2xl p-6 text-white shadow-sm flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
         <div className="flex items-center space-x-4">
