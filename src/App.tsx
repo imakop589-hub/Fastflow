@@ -29,6 +29,7 @@ import { RestaurantStaffManager } from './components/RestaurantStaffManager';
 import { RestaurantOnboarding } from './components/RestaurantOnboarding';
 import { RestaurantDetailModal } from './components/RestaurantDetailModal';
 import { SecurityTestModal } from './components/SecurityTestModal';
+import { AuthModal } from './components/AuthModal';
 
 export default function App() {
   const [currentUser, setCurrentUser] = useState<User>(backend.currentUser);
@@ -38,11 +39,23 @@ export default function App() {
   const [selectedCity, setSelectedCity] = useState<string>('All');
   const [inspectRestaurant, setInspectRestaurant] = useState<Restaurant | null>(null);
   const [securityModalOpen, setSecurityModalOpen] = useState<boolean>(false);
+  const [authModalOpen, setAuthModalOpen] = useState<boolean>(false);
   const [, setRefreshKey] = useState(0);
 
   const refreshState = () => {
-    setCurrentUser({ ...backend.currentUser });
+    const user = { ...backend.currentUser };
+    setCurrentUser(user);
     setRefreshKey((prev) => prev + 1);
+
+    // If new role cannot access current tab, navigate gracefully to marketplace
+    const userIsAdmin = user.roles.includes('super-admin') || user.roles.includes('admin');
+    const userIsMerchant = user.roles.includes('restaurant-owner') || user.roles.includes('restaurant-staff');
+
+    if (currentTab === 'admin' && !userIsAdmin) {
+      setCurrentTab('marketplace');
+    } else if (currentTab === 'restaurant' && !userIsMerchant) {
+      setCurrentTab('marketplace');
+    }
   };
 
   const isAdmin = currentUser.roles.includes('super-admin') || currentUser.roles.includes('admin');
@@ -58,6 +71,7 @@ export default function App() {
         currentUser={currentUser}
         onUserChange={refreshState}
         onOpenSecurityModal={() => setSecurityModalOpen(true)}
+        onOpenAuthModal={() => setAuthModalOpen(true)}
         selectedCity={selectedCity}
         setSelectedCity={setSelectedCity}
       />
@@ -273,6 +287,20 @@ export default function App() {
       <SecurityTestModal
         isOpen={securityModalOpen}
         onClose={() => setSecurityModalOpen(false)}
+      />
+
+      {/* Account Login / Registration Modal */}
+      <AuthModal
+        isOpen={authModalOpen}
+        onClose={() => setAuthModalOpen(false)}
+        currentUser={currentUser}
+        onLoginSuccess={(user) => {
+          setCurrentUser(user);
+          refreshState();
+        }}
+        onLogout={() => {
+          refreshState();
+        }}
       />
     </div>
   );

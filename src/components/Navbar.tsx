@@ -5,10 +5,9 @@ import {
   Compass,
   UserCheck,
   Building2,
-  CheckCircle2,
   ChevronDown,
-  Sparkles,
-  KeyRound,
+  LogIn,
+  User as UserIcon,
 } from 'lucide-react';
 import { User } from '../types';
 import { backend } from '../services/mockBackend';
@@ -19,6 +18,7 @@ interface NavbarProps {
   currentUser: User;
   onUserChange: () => void;
   onOpenSecurityModal: () => void;
+  onOpenAuthModal: () => void;
   selectedCity: string;
   setSelectedCity: (city: string) => void;
 }
@@ -29,6 +29,7 @@ export const Navbar: React.FC<NavbarProps> = ({
   currentUser,
   onUserChange,
   onOpenSecurityModal,
+  onOpenAuthModal,
   selectedCity,
   setSelectedCity,
 }) => {
@@ -43,7 +44,7 @@ export const Navbar: React.FC<NavbarProps> = ({
       <div className="bg-slate-900 text-slate-300 text-xs px-4 py-1.5 flex flex-wrap items-center justify-between gap-2">
         <div className="flex items-center space-x-2">
           <span className="inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-bold bg-orange-500/20 text-orange-400 border border-orange-500/30">
-            PHASE 1 CORE
+            FASTFLOW MARKETPLACE
           </span>
           <span className="hidden sm:inline text-slate-400">Laravel 11 + React 19 Architecture & RBAC System</span>
         </div>
@@ -52,7 +53,7 @@ export const Navbar: React.FC<NavbarProps> = ({
           {/* Quick Role Switcher */}
           <div className="flex items-center space-x-1.5">
             <UserCheck className="w-3.5 h-3.5 text-orange-400" />
-            <span className="text-slate-400">Active Identity:</span>
+            <span className="text-slate-400">Current User:</span>
             <select
               value={currentUser.id}
               onChange={(e) => {
@@ -71,6 +72,15 @@ export const Navbar: React.FC<NavbarProps> = ({
               ))}
             </select>
           </div>
+
+          {/* Login / Switch Account Button */}
+          <button
+            onClick={onOpenAuthModal}
+            className="flex items-center space-x-1 bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 rounded px-2 py-0.5 transition font-semibold"
+          >
+            <LogIn className="w-3 h-3 text-orange-400" />
+            <span>Login / Switch</span>
+          </button>
 
           {/* Security Suite Trigger */}
           <button
@@ -120,63 +130,87 @@ export const Navbar: React.FC<NavbarProps> = ({
             </div>
           </div>
 
-          {/* Module Navigation Tabs */}
-          <nav className="flex items-center space-x-1 sm:space-x-2">
-            <button
-              onClick={() => setCurrentTab('marketplace')}
-              className={`flex items-center space-x-1.5 px-3 py-2 rounded-xl text-xs sm:text-sm font-semibold transition ${
-                currentTab === 'marketplace'
-                  ? 'bg-orange-50 text-orange-600 border border-orange-200/60'
-                  : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100'
-              }`}
-            >
-              <Compass className="w-4 h-4" />
-              <span>Marketplace</span>
-            </button>
-
-            {/* Admin Portal Tab */}
-            {isAdmin && (
+          {/* Module Navigation Tabs & Auth Section */}
+          <div className="flex items-center space-x-2 sm:space-x-3">
+            <nav className="flex items-center space-x-1 sm:space-x-2">
               <button
-                onClick={() => setCurrentTab('admin')}
+                onClick={() => setCurrentTab('marketplace')}
                 className={`flex items-center space-x-1.5 px-3 py-2 rounded-xl text-xs sm:text-sm font-semibold transition ${
-                  currentTab.startsWith('admin')
-                    ? 'bg-slate-900 text-white shadow-xs'
+                  currentTab === 'marketplace'
+                    ? 'bg-orange-50 text-orange-600 border border-orange-200/60'
                     : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100'
                 }`}
               >
-                <Shield className="w-4 h-4 text-orange-400" />
-                <span>Admin Portal</span>
+                <Compass className="w-4 h-4" />
+                <span>Marketplace</span>
               </button>
-            )}
 
-            {/* Merchant / Restaurant Portal Tab */}
-            {(isOwner || isStaff) && (
+              {/* Admin Portal Tab */}
+              {isAdmin && (
+                <button
+                  onClick={() => setCurrentTab('admin')}
+                  className={`flex items-center space-x-1.5 px-3 py-2 rounded-xl text-xs sm:text-sm font-semibold transition ${
+                    currentTab.startsWith('admin')
+                      ? 'bg-slate-900 text-white shadow-xs'
+                      : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100'
+                  }`}
+                >
+                  <Shield className="w-4 h-4 text-orange-400" />
+                  <span>Admin Portal</span>
+                </button>
+              )}
+
+              {/* Merchant / Restaurant Portal Tab */}
+              {(isOwner || isStaff) && (
+                <button
+                  onClick={() => setCurrentTab('restaurant')}
+                  className={`flex items-center space-x-1.5 px-3 py-2 rounded-xl text-xs sm:text-sm font-semibold transition ${
+                    currentTab.startsWith('restaurant')
+                      ? 'bg-orange-600 text-white shadow-xs'
+                      : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100'
+                  }`}
+                >
+                  <Store className="w-4 h-4" />
+                  <span>Merchant Portal</span>
+                </button>
+              )}
+
+              {/* Onboarding / Apply as Restaurant */}
               <button
-                onClick={() => setCurrentTab('restaurant')}
-                className={`flex items-center space-x-1.5 px-3 py-2 rounded-xl text-xs sm:text-sm font-semibold transition ${
-                  currentTab.startsWith('restaurant')
-                    ? 'bg-orange-600 text-white shadow-xs'
-                    : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100'
+                onClick={() => setCurrentTab('apply')}
+                className={`hidden sm:flex items-center space-x-1.5 px-3.5 py-2 rounded-xl text-xs sm:text-sm font-semibold transition ${
+                  currentTab === 'apply'
+                    ? 'bg-amber-100 text-amber-900 border border-amber-300'
+                    : 'bg-slate-100 hover:bg-slate-200 text-slate-800'
                 }`}
               >
-                <Store className="w-4 h-4" />
-                <span>Merchant Portal</span>
+                <Building2 className="w-4 h-4 text-amber-600" />
+                <span>Partner Onboarding</span>
               </button>
-            )}
+            </nav>
 
-            {/* Onboarding / Apply as Restaurant */}
-            <button
-              onClick={() => setCurrentTab('apply')}
-              className={`hidden sm:flex items-center space-x-1.5 px-3.5 py-2 rounded-xl text-xs sm:text-sm font-semibold transition ${
-                currentTab === 'apply'
-                  ? 'bg-amber-100 text-amber-900 border border-amber-300'
-                  : 'bg-slate-100 hover:bg-slate-200 text-slate-800'
-              }`}
-            >
-              <Building2 className="w-4 h-4 text-amber-600" />
-              <span>Partner Onboarding</span>
-            </button>
-          </nav>
+            {/* User Account / Login Button */}
+            <div className="pl-2 border-l border-slate-200">
+              <button
+                onClick={onOpenAuthModal}
+                className="flex items-center space-x-2 pl-2 pr-3 py-1.5 rounded-xl border border-slate-200 bg-white hover:border-orange-400 hover:shadow-xs transition text-left group"
+                title="Manage Account / Log In / Sign Up"
+              >
+                <div className="w-7 h-7 rounded-lg bg-orange-600 group-hover:bg-orange-700 text-white font-black text-xs flex items-center justify-center transition">
+                  {currentUser.name.charAt(0)}
+                </div>
+                <div className="hidden md:block">
+                  <span className="block text-xs font-bold text-slate-800 leading-tight truncate max-w-[120px]">
+                    {currentUser.name}
+                  </span>
+                  <span className="block text-[10px] text-orange-600 font-semibold uppercase tracking-wider">
+                    {currentUser.roles[0].replace('-', ' ')}
+                  </span>
+                </div>
+                <ChevronDown className="w-3.5 h-3.5 text-slate-400 group-hover:text-slate-600" />
+              </button>
+            </div>
+          </div>
         </div>
       </div>
     </header>

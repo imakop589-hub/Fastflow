@@ -17,6 +17,9 @@ use Illuminate\Support\Facades\Hash;
 
 class RestaurantStaffController extends Controller
 {
+    /**
+     * List all staff members for the target restaurant.
+     */
     public function index(Request $request, ?Restaurant $restaurant = null): JsonResponse
     {
         $user = $request->user();
@@ -42,15 +45,26 @@ class RestaurantStaffController extends Controller
         return $this->successResponse(RestaurantStaffResource::collection($staff), 'Staff members retrieved');
     }
 
+    /**
+     * Store a new staff member for the target restaurant.
+     * Flow:
+     * 1. $validated = $request->validated();
+     * 2. Resolve the target restaurant.
+     * 3. Authorize the authenticated user against that exact restaurant.
+     * 4. Start the transaction.
+     * 5. Create the staff user.
+     * 6. Validate/resolve the requested application role (manager -> restaurant-manager, staff -> restaurant-staff).
+     * 7. Create RestaurantStaff.
+     * 8. Write audit log.
+     * 9. Return the created staff resource.
+     */
     public function store(CreateStaffRequest $request, ?Restaurant $restaurant = null): JsonResponse
     {
+        $validated = $request->validated();
         $user = $request->user();
 
         if (! $restaurant) {
-            $restaurantId = $request->input('restaurant_id') ?? $request->query('restaurant_id');
-            $restaurant = $restaurantId 
-                ? Restaurant::find($restaurantId)
-                : $user->primaryRestaurant;
+            $restaurant = $request->getTargetRestaurant();
         }
 
         if (! $restaurant) {
@@ -59,7 +73,26 @@ class RestaurantStaffController extends Controller
 
         $this->authorize('create', [RestaurantStaff::class, $restaurant]);
 
-        $staffRecord = DB::transaction(function () use ($validated, $restaurant, $user) {
+        // Role mapping: Only intended restaurant staff roles are permitted
+        $roleSlugMap = [
+            'manager' => 'restaurant-manager',
+            'staff' => 'restaurant-staff',
+        ];
+
+        $roleKey = $validated['role'] ?? null;
+        if (! isset($roleSlugMap[$roleKey])) {
+            return $this->errorResponse('Unauthorized staff role requested. Only manager and staff are permitted.', null, 422);
+        }
+
+        $roleSlug = $roleSlugMap[$roleKey];
+        $role = Role::where('slug', $roleSlug)->first();
+
+        // If the required role does not exist in the database, staff creation must fail safely
+        if (! $role) {
+            return $this->errorResponse("Required system role '{$roleSlug}' is not configured in the database.", null, 500);
+        }
+
+        $staffRecord = DB::transaction(function () use ($validated, $restaurant, $user, $role, $roleKey) {
             $staffUser = User::create([
                 'name' => $validated['name'],
                 'email' => $validated['email'],
@@ -68,17 +101,12 @@ class RestaurantStaffController extends Controller
                 'status' => 'active',
             ]);
 
-            // Assign role
-            $roleSlug = $validated['role'] === 'manager' ? 'restaurant-manager' : 'restaurant-staff';
-            $role = Role::where('slug', $roleSlug)->first();
-            if ($role) {
-                $staffUser->roles()->attach($role->id);
-            }
+            $staffUser->roles()->attach($role->id);
 
             $staff = RestaurantStaff::create([
                 'restaurant_id' => $restaurant->id,
                 'user_id' => $staffUser->id,
-                'role' => $validated['role'],
+                'role' => $roleKey,
                 'status' => 'active',
             ]);
 
@@ -87,7 +115,7 @@ class RestaurantStaffController extends Controller
                 module: 'staff',
                 recordType: 'RestaurantStaff',
                 recordId: $staff->id,
-                description: "Staff member {$staffUser->name} created for restaurant {$restaurant->name}",
+                description: "Staff member {$staffUser->name} ({$roleKey}) created for restaurant {$restaurant->name}",
                 userId: $user->id
             );
 
@@ -101,6 +129,9 @@ class RestaurantStaffController extends Controller
         );
     }
 
+    /**
+     * Toggle staff active/inactive status.
+     */
     public function toggleStatus(Request $request, RestaurantStaff $staff): JsonResponse
     {
         $this->authorize('update', $staff);
@@ -120,6 +151,9 @@ class RestaurantStaffController extends Controller
         return $this->successResponse(new RestaurantStaffResource($staff->load('user')), "Staff status changed to {$newStatus}");
     }
 
+    /**
+     * Remove a staff member.
+     */
     public function destroy(Request $request, RestaurantStaff $staff): JsonResponse
     {
         $this->authorize('delete', $staff);

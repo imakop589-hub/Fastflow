@@ -37,7 +37,7 @@ class RestaurantProfileController extends Controller
 
     /**
      * Get the authenticated owner's restaurant profile.
-     * Supports specific restaurant parameter or fallback to primary restaurant.
+     * Supports specific restaurant parameter, query restaurant_id, or fallback to primary restaurant.
      */
     public function show(Request $request, ?Restaurant $restaurant = null): JsonResponse
     {
@@ -98,10 +98,7 @@ class RestaurantProfileController extends Controller
         $user = $request->user();
 
         if (! $restaurant) {
-            $restaurantId = $request->input('restaurant_id') ?? $request->query('restaurant_id');
-            $restaurant = $restaurantId
-                ? Restaurant::find($restaurantId)
-                : $user->primaryRestaurant;
+            $restaurant = $request->getTargetRestaurant();
         }
 
         if (! $restaurant) {
@@ -111,6 +108,7 @@ class RestaurantProfileController extends Controller
         $this->authorize('update', $restaurant);
 
         $validated = $request->validated();
+        unset($validated['restaurant_id']);
 
         if ($request->hasFile('logo')) {
             $validated['logo'] = $this->restaurantService->storeImage($request->file('logo'), 'logos');
@@ -134,7 +132,7 @@ class RestaurantProfileController extends Controller
         );
 
         return $this->successResponse(
-            new RestaurantDetailResource($restaurant->fresh(['hours', 'staff.user'])),
+            new RestaurantDetailResource($restaurant->fresh(['hours', 'staff.user', 'cityRef', 'areaRef'])),
             'Restaurant profile updated successfully'
         );
     }

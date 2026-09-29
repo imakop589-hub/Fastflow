@@ -442,6 +442,51 @@ class MockBackendService {
     });
   }
 
+  public login(email: string, _password?: string): User {
+    const user = this.users.find(u => u.email.trim().toLowerCase() === email.trim().toLowerCase());
+    if (!user) {
+      throw new Error(`Account not found for "${email}". Please verify the email address or select a preset demo account.`);
+    }
+    if (user.status !== 'active') {
+      throw new Error(`Your account is ${user.status}. Please contact system support.`);
+    }
+    user.last_login_at = new Date().toISOString();
+    this.setCurrentUser(user);
+    return { ...user };
+  }
+
+  public register(data: { name: string; email: string; phone?: string; role?: string }): User {
+    const existing = this.users.find(u => u.email.trim().toLowerCase() === data.email.trim().toLowerCase());
+    if (existing) {
+      throw new Error(`An account with email "${data.email}" is already registered. Please log in instead.`);
+    }
+
+    const roleSlug = data.role === 'restaurant-owner' ? 'restaurant-owner' : 'customer';
+    const newUser: User = {
+      id: this.users.length + 1,
+      name: data.name,
+      email: data.email,
+      phone: data.phone,
+      status: 'active',
+      roles: [roleSlug],
+      created_at: new Date().toISOString(),
+      last_login_at: new Date().toISOString(),
+    };
+
+    this.users.push(newUser);
+    this.setCurrentUser(newUser);
+
+    this.logAudit({
+      action: 'register',
+      module: 'auth',
+      record_type: 'User',
+      record_id: newUser.id,
+      description: `New user account registered: ${newUser.name} with role ${roleSlug}`,
+    });
+
+    return { ...newUser };
+  }
+
   public getUsers(): User[] {
     return [...this.users];
   }

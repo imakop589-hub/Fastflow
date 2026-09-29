@@ -2,6 +2,8 @@
 
 namespace App\Http\Requests\Owner;
 
+use App\Models\Area;
+use App\Models\City;
 use Illuminate\Foundation\Http\FormRequest;
 
 class RestaurantApplicationRequest extends FormRequest
@@ -34,5 +36,31 @@ class RestaurantApplicationRequest extends FormRequest
             'logo' => ['nullable', 'file', 'mimes:jpeg,jpg,png,webp', 'max:2048'],
             'cover_image' => ['nullable', 'file', 'mimes:jpeg,jpg,png,webp', 'max:4096'],
         ];
+    }
+
+    /**
+     * Enforce geographic relational hierarchy integrity.
+     */
+    public function withValidator($validator): void
+    {
+        $validator->after(function ($validator) {
+            $countryId = $this->input('country_id');
+            $cityId = $this->input('city_id');
+            $areaId = $this->input('area_id');
+
+            if ($cityId) {
+                $city = City::find($cityId);
+                if ($city && $countryId && (int) $city->country_id !== (int) $countryId) {
+                    $validator->errors()->add('city_id', 'The selected city does not belong to the selected country.');
+                }
+            }
+
+            if ($areaId) {
+                $area = Area::find($areaId);
+                if ($area && $cityId && (int) $area->city_id !== (int) $cityId) {
+                    $validator->errors()->add('area_id', 'The selected area does not belong to the selected city.');
+                }
+            }
+        });
     }
 }

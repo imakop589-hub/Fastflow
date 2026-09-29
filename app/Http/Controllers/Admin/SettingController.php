@@ -9,6 +9,7 @@ use App\Models\Setting;
 use App\Services\AuditLogService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class SettingController extends Controller
 {
@@ -34,20 +35,23 @@ class SettingController extends Controller
         $items = $request->input('settings', []);
         $updated = [];
 
-        foreach ($items as $item) {
-            $setting = Setting::set(
-                key: $item['key'],
-                value: $item['value'],
-                group: $item['group'] ?? 'general'
-            );
-            $updated[] = $setting;
-        }
+        DB::transaction(function () use ($items, &$updated) {
+            foreach ($items as $item) {
+                $setting = Setting::set(
+                    key: $item['key'],
+                    value: $item['value'],
+                    group: $item['group'] ?? 'general'
+                );
+                $updated[] = $setting;
+            }
+        });
 
         AuditLogService::log(
             action: 'settings_updated',
             module: 'settings',
             recordType: 'Setting',
-            description: 'System settings updated'
+            description: 'System settings updated by admin',
+            userId: $request->user()->id
         );
 
         return $this->successResponse(SettingResource::collection($updated), 'Settings updated successfully');

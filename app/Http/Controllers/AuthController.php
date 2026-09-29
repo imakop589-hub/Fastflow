@@ -10,12 +10,15 @@ use App\Models\User;
 use App\Services\AuditLogService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\ValidationException;
 
 class AuthController extends Controller
 {
+    /**
+     * Authenticate user and issue personal access token.
+     */
     public function login(LoginRequest $request): JsonResponse
     {
         $credentials = $request->only('email', 'password');
@@ -51,23 +54,41 @@ class AuthController extends Controller
         ], 'Logged in successfully');
     }
 
+    /**
+     * Register a new user with strictly bounded self-registration roles.
+     * Privileged system roles (super-admin, admin, manager, staff, rider, etc.) are strictly prohibited.
+     */
     public function register(RegisterRequest $request): JsonResponse
     {
         $validated = $request->validated();
-
-        $user = User::create([
-            'name' => $validated['name'],
-            'email' => $validated['email'],
-            'phone' => $validated['phone'] ?? null,
-            'password' => Hash::make($validated['password']),
-            'status' => 'active',
-        ]);
-
         $roleSlug = $validated['role'] ?? 'customer';
-        $role = Role::where('slug', $roleSlug)->first();
-        if ($role) {
-            $user->roles()->attach($role->id);
+
+        // Explicitly whitelist allowable public self-registration roles
+        $allowedPublicRoles = ['customer', 'restaurant-owner'];
+        if (! in_array($roleSlug, $allowedPublicRoles, true)) {
+            return $this->errorResponse('Unauthorized or invalid role selected for self-registration.', null, 422);
         }
+
+        // Verify the role exists in the database before proceeding
+        $role = Role::where('slug', $roleSlug)->first();
+        if (! $role) {
+            return $this->errorResponse("The requested registration role '{$roleSlug}' is not configured in the database.", null, 500);
+        }
+
+        // Atomically create user and attach verified role
+        $user = DB::transaction(function () use ($validated, $role) {
+            $newUser = User::create([
+                'name' => $validated['name'],
+                'email' => $validated['email'],
+                'phone' => $validated['phone'] ?? null,
+                'password' => Hash::make($validated['password']),
+                'status' => 'active',
+            ]);
+
+            $newUser->roles()->attach($role->id);
+
+            return $newUser;
+        });
 
         $token = $user->createToken('auth-token')->plainTextToken;
 
@@ -86,6 +107,9 @@ class AuthController extends Controller
         ], 'Registration successful', 201);
     }
 
+    /**
+     * Log out authenticated user by revoking current personal access token.
+     */
     public function logout(Request $request): JsonResponse
     {
         $user = $request->user();
@@ -106,6 +130,9 @@ class AuthController extends Controller
         return $this->successResponse(null, 'Logged out successfully');
     }
 
+    /**
+     * Retrieve authenticated user profile, permissions, and primary restaurant.
+     */
     public function me(Request $request): JsonResponse
     {
         $user = $request->user()->load(['roles.permissions', 'primaryRestaurant']);
